@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { featuredMedicines } from "@/lib/data";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import medicineImage from "@/components/images/hero-section-image.jpeg";
 
 export default function MedicineDetails({ id }: { id: string }) {
     const medicine = featuredMedicines.find((m) => m.id === Number.parseInt(id))
@@ -12,13 +13,13 @@ export default function MedicineDetails({ id }: { id: string }) {
     }
 
     return (
-        <div className="container px-4 py-12 md:py-24">
+        <div className="max-w-7xl mx-auto">
             <Card>
                 <CardContent className="p-6">
                     <div className="grid gap-6 md:grid-cols-2">
                         <div className="relative aspect-square">
                             <Image
-                                src={medicine.image || "/placeholder.svg"}
+                                src={medicineImage}
                                 alt={medicine.name}
                                 fill
                                 className="object-cover rounded-lg"

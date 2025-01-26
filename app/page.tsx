@@ -1,28 +1,57 @@
 "use client"
 
-import ContactForm from "@/components/contactform";
+import { useState, useEffect, useRef } from "react";
+import ContactForm from "@/components/contact-section";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { featuredMedicines } from "@/lib/data";
-import { ArrowRight, Clock, Shield, Users, Zap } from "lucide-react";
+import { ArrowRight, Clock, Search, Shield, Users, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
+import { Badge } from "@/components/ui/badge";
+import heroSectionImage from "@/components/images/hero-section-image.jpeg";
+
+const medicines: string[] = [
+	"Aspirin", "Ibuprofen", "Paracetamol", "Amoxicillin", "Lisinopril",
+	"Metformin", "Omeprazole", "Atorvastatin", "Amlodipine", "Metoprolol"
+];
 
 export default function App() {
+	const [searchQuery, setSearchQuery] = useState('');
+
+	const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log('Searching for:', searchQuery);
+	};
+
 	return (
-		<div className="flex flex-col min-h-screen">
-			<section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
-				<div className="container px-4 md:px-6">
-					<div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-						<div className="space-y-4">
-							<h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-								Streamline Your Medicine Inventory Management Today
+		<div className="flex flex-col w-full min-h-screen">
+			<section className="w-full py-16 md:py-24 lg:py-32 bg-gradient-to-b from-[#F5E6D3] to-white dark:from-[#1D3557] dark:to-gray-900">
+				<div className="max-w-7xl mx-auto px-4 md:px-6">
+					<div className="grid gap-12 lg:grid-cols-2 items-center">
+						<div className="space-y-6">
+							<h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-gray-900 dark:text-white">
+								Streamline Your Medicine Inventory Management
 							</h1>
-							<p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+							<p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-300">
 								Fast, reliable, and easy-to-use medicine inventory platform. Manage your pharmacy inventory with ease.
 							</p>
-							<div className="flex flex-col gap-2 min-[400px]:flex-row">
+							<form onSubmit={handleSearch} className="flex w-full max-w-sm items-center space-x-2">
+								<Input
+									type="search"
+									placeholder="Search medicines..."
+									value={searchQuery}
+									onChange={(e) => setSearchQuery(e.target.value)}
+									className="flex-grow"
+								/>
+								<Button type="submit" size="icon">
+									<Search className="h-4 w-4" />
+									<span className="sr-only">Search</span>
+								</Button>
+							</form>
+							<div className="flex flex-col gap-4 min-[400px]:flex-row">
 								<Link href="/explore">
 									<Button size="lg" className="w-full min-[400px]:w-auto">
 										Explore Medicines
@@ -36,23 +65,26 @@ export default function App() {
 						</div>
 						<div className="flex items-center justify-center">
 							<Image
-								src="/placeholder.svg?height=400&width=600"
+								src={heroSectionImage}
 								alt="Hero Image"
 								width={600}
-								height={400}
-								className="rounded-lg object-cover"
+								height={200}
+								className="h-96 rounded-lg object-cover shadow-lg"
 								priority
 							/>
 						</div>
 					</div>
+					<div className="mt-12 overflow-hidden">
+						<Marquee medicines={medicines} />
+					</div>
 				</div>
 			</section>
-			<section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50 dark:bg-gray-900">
-				<div className="container px-4 md:px-6">
+			<section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-[#D1D9CE] to-white dark:from-[#8E7F7F] dark:to-gray-900">
+				<div className="max-w-7xl mx-auto w-full px-4 md:px-6">
 					<div className="grid gap-12">
 						<div className="text-center space-y-4">
 							<h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Featured Medicines</h2>
-							<p className="max-w-[600px] mx-auto text-gray-500 md:text-xl/relaxed dark:text-gray-400">
+							<p className="mx-auto text-gray-500 md:text-xl/relaxed dark:text-gray-400">
 								Discover our most popular and essential medicines
 							</p>
 						</div>
@@ -108,7 +140,7 @@ export default function App() {
 					</div>
 				</div>
 			</section>
-			<section className="w-full py-12 md:py-24 lg:py-32">
+			<section className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32">
 				<div className="container px-4 md:px-6">
 					<div className="grid gap-12">
 						<div className="text-center space-y-4">
@@ -159,7 +191,7 @@ export default function App() {
 				</div>
 			</section>
 			<section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50 dark:bg-gray-900">
-				<div className="container px-4 md:px-6">
+				<div className="max-w-7xl mx-auto px-4 md:px-6">
 					<div className="grid gap-12">
 						<div className="text-center space-y-4">
 							<h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Discover Our Featured Medicines Today</h2>
@@ -197,22 +229,61 @@ export default function App() {
 					</div>
 				</div>
 			</section>
-			<section className="w-full py-12 md:py-24 lg:py-32">
-				<div className="container px-4 md:px-6">
-					<div className="grid gap-12">
-						<div className="text-center space-y-4">
-							<h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Get in Touch</h2>
-							<p className="max-w-[600px] mx-auto text-gray-500 md:text-xl/relaxed dark:text-gray-400">
-								We&apos;re here to help you with any questions about our platform
-							</p>
-						</div>
-						<div className="mx-auto max-w-2xl">
-							<ContactForm />
-						</div>
-					</div>
-				</div>
+			<section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-[#F5E6D3] to-white dark:from-[#1D3557] dark:to-gray-900">
+				<ContactForm />
 			</section>
 		</div>
 	)
 }
 
+function Marquee({ medicines }: { medicines: string[] }) {
+	const containerRef = useRef<HTMLDivElement>(null);
+	const innerRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		const container = containerRef.current;
+		const inner = innerRef.current;
+		if (!container || !inner) return;
+
+		const totalWidth = inner.offsetWidth;
+		let currentPosition = 0;
+
+		const animate = () => {
+			currentPosition += 1;
+			if (currentPosition >= totalWidth / 2) {
+				currentPosition = 0;
+			}
+			container.scrollLeft = currentPosition;
+			requestAnimationFrame(animate);
+		};
+
+		const animationFrame = requestAnimationFrame(animate);
+		return () => cancelAnimationFrame(animationFrame);
+	}, []);
+
+	return (
+		<div
+			ref={containerRef}
+			className="relative h-16 bg-gray-50 flex items-center dark:bg-gray-800 overflow-hidden"
+		>
+			<div
+				ref={innerRef}
+				className="flex whitespace-nowrap gap-4"
+				style={{ minWidth: '200%' }}  // Ensure content is at least twice the container width
+			>
+				{[...Array(2)].map((_, index) => (
+					<React.Fragment key={index}>
+						{medicines.map((medicine, medicineIndex) => (
+							<Badge
+								key={`${index}-${medicineIndex}`}
+								className="inline-block px-8 text-md font-medium"
+							>
+								{medicine}
+							</Badge>
+						))}
+					</React.Fragment>
+				))}
+			</div>
+		</div>
+	);
+}
