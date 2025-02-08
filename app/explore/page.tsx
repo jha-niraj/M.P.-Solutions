@@ -10,6 +10,7 @@ import { Search, ArrowRight } from "lucide-react"
 import { featuredMedicines } from "@/lib/data"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import medicineImage from "@/components/images/hero-section-image.jpeg";
+import { motion } from "framer-motion"
 
 export default function ExplorePage() {
     const [searchQuery, setSearchQuery] = useState("")
@@ -69,24 +70,31 @@ export default function ExplorePage() {
                 </div>
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {
-                        filteredMedicines.map((medicine) => (
-                            <Link key={medicine.id} href={`/medicine/${medicine.id}`}>
-                                <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow group">
-                                    <div className="aspect-square relative">
-                                        <Image src={medicineImage} alt={medicine.name} fill className="object-cover" />
-                                    </div>
-                                    <CardContent className="p-3">
-                                        <h3 className="font-bold text-sm">{medicine.name}</h3>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">Rs. {medicine.price.toFixed(2)}</p>
-                                    </CardContent>
-                                    <CardFooter className="p-3 pt-0">
-                                        <Button variant="ghost" className="w-full text-sm group transition-all duration-300">
-                                            View Details
-                                            <ArrowRight className="mr-2 h-4 w-4 group-hover:translate-x-2 transition-all" />
-                                        </Button>
-                                    </CardFooter>
-                                </Card>
-                            </Link>
+                        filteredMedicines.map((medicine, index: number) => (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.3 }}
+                                key={index}
+                            >
+                                <Link href={`/medicine/${medicine.id}`}>
+                                    <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow">
+                                        <div className="aspect-square relative">
+                                            <Image src={medicineImage} alt={medicine.name} fill className="object-cover" />
+                                        </div>
+                                        <CardContent className="p-3">
+                                            <h3 className="font-bold text-sm">{medicine.name}</h3>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">Rs. {medicine.price.toFixed(2)}</p>
+                                        </CardContent>
+                                        <CardFooter className="p-3 pt-0 group">
+                                            <Button variant="ghost" className="w-full text-sm group transition-all duration-300">
+                                                View Details
+                                                <ArrowRight className="mr-2 h-4 w-4 group-hover:translate-x-2 transition-all" />
+                                            </Button>
+                                        </CardFooter>
+                                    </Card>
+                                </Link>
+                            </motion.div>
                         ))
                     }
                     {

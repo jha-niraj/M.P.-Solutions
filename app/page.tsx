@@ -12,6 +12,35 @@ import Link from "next/link";
 import * as React from "react";
 import { Badge } from "@/components/ui/badge";
 import heroSectionImage from "@/components/images/hero-section-image.jpeg";
+import { motion } from "framer-motion";
+
+const fadeInUp = {
+	initial: { opacity: 0, y: -40 },
+	animate: { opacity: 1, y: 0 },
+	transition: { duration: 1 }
+};
+const fadeInLeft = {
+	initial: { opacity: 0, x: -60 },
+	animate: { opacity: 1, x: 0 },
+	transition: { duration: 1 }
+};
+const fadeInRight = {
+	initial: { opacity: 0, x: 60 },
+	animate: { opacity: 1, x: 0 },
+	transition: { duration: 1 }
+};
+const zoomIn = {
+	initial: { opacity: 0, scale: 0.8 },
+	animate: { opacity: 1, scale: 1 },
+	transition: { duration: 1 }
+};
+const staggerChildren = {
+	animate: {
+		transition: {
+			staggerChildren: 0.8
+		}
+	}
+};
 
 const medicines: string[] = [
 	"Aspirin", "Ibuprofen", "Paracetamol", "Amoxicillin", "Lisinopril",
@@ -27,17 +56,31 @@ export default function App() {
 	};
 
 	return (
-		<div className="flex flex-col w-full min-h-screen">
-			<section className="w-full py-16 md:py-24 lg:py-32 bg-gradient-to-b from-[#F5E6D3] to-white dark:from-[#1D3557] dark:to-gray-900">
+		<motion.div
+			className="flex flex-col w-full min-h-screen"
+			initial="initial"
+			animate="animate"
+			variants={staggerChildren}
+		>
+			<motion.section
+				className="w-full py-16 md:py-24 lg:py-32 bg-gradient-to-b from-[#F5E6D3] to-white dark:from-[#1D3557] dark:to-gray-900"
+				variants={fadeInUp}
+			>
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
 					<div className="grid gap-12 lg:grid-cols-2 items-center">
 						<div className="space-y-6">
-							<h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-gray-900 dark:text-white">
+							<motion.h1
+								className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-gray-900 dark:text-white"
+								variants={fadeInLeft}
+							>
 								Streamline Your Medicine Inventory Management
-							</h1>
-							<p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-300">
+							</motion.h1>
+							<motion.p
+								className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-300"
+								variants={fadeInUp}
+							>
 								Fast, reliable, and easy-to-use medicine inventory platform. Manage your pharmacy inventory with ease.
-							</p>
+							</motion.p>
 							<form onSubmit={handleSearch} className="flex w-full max-w-sm items-center space-x-2">
 								<Input
 									type="search"
@@ -63,23 +106,29 @@ export default function App() {
 								</Button>
 							</div>
 						</div>
-						<div className="flex items-center justify-center">
+						<motion.div 
+							className="flex items-center justify-center"
+							variants={fadeInRight}
+						>
 							<Image
 								src={heroSectionImage}
 								alt="Hero Image"
 								width={600}
 								height={200}
-								className="h-96 rounded-lg object-cover shadow-lg"
+								className="h-96 rounded-lg object-cover shadow-lg hover:scale-105 transition-all duration-200"
 								priority
 							/>
-						</div>
+						</motion.div>
 					</div>
-					<div className="mt-12 overflow-hidden">
+					<motion.div 
+						className="mt-12 overflow-hidden"
+						variants={zoomIn}
+					>
 						<Marquee medicines={medicines} />
-					</div>
+					</motion.div>
 				</div>
-			</section>
-			<section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-[#D1D9CE] to-white dark:from-[#8E7F7F] dark:to-gray-900">
+			</motion.section>
+			<section className="py-12 bg-gradient-to-t from-[#D1D9CE] to-white dark:from-[#8E7F7F] dark:to-gray-900">
 				<div className="max-w-7xl mx-auto w-full px-4 md:px-6">
 					<div className="grid gap-12">
 						<div className="text-center space-y-4">
@@ -140,7 +189,7 @@ export default function App() {
 					</div>
 				</div>
 			</section>
-			<section className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32">
+			<section className="max-w-7xl mx-auto py-12">
 				<div className="container px-4 md:px-6">
 					<div className="grid gap-12">
 						<div className="text-center space-y-4">
@@ -232,7 +281,7 @@ export default function App() {
 			<section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-[#F5E6D3] to-white dark:from-[#1D3557] dark:to-gray-900">
 				<ContactForm />
 			</section>
-		</div>
+		</motion.div>
 	)
 }
 
